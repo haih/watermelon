@@ -53,10 +53,4 @@ public class IndexController {
 		System.out.println("twibo");
 		return "/twibo";
 	}
-	
-	@RequestMapping("/testdb")
-	public String testdb(){
-		System.out.println("test");
-		return "/twibo";
-	}
 }
