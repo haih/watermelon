@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 
 import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoOptions;
 import com.mongodb.ReadPreference;
 import com.mongodb.ServerAddress;
@@ -16,7 +18,7 @@ public class MongoFactoryBean extends AbstractFactoryBean<Mongo> {
      // 表示服务器列表(主从复制或者分片)的字符串数组
      private String[] serverStrings;
      // mongoDB配置对象
-     private MongoOptions mongoOptions;
+     private MongoClientOptions mongoOptions;
      // 是否主从分离(读取从库)，默认读写都在主库
      private boolean readSecondary = false;
      // 设定写策略(出错时是否抛异常)，默认采用SAFE模式(需要抛异常)
@@ -52,18 +54,18 @@ public class MongoFactoryBean extends AbstractFactoryBean<Mongo> {
          List<ServerAddress> serverList = getServerList();
  
          if (serverList.size() == 0) {
-             mongo = new Mongo();
+             mongo = new MongoClient();//new Mongo();
          }else if(serverList.size() == 1){
              if (mongoOptions != null) {
-                 mongo = new Mongo(serverList.get(0), mongoOptions);
+                 mongo = new MongoClient(serverList.get(0), mongoOptions);//Mongo(serverList.get(0), mongoOptions);
              }else{
-                 mongo = new Mongo(serverList.get(0));
+                 mongo = new MongoClient(serverList.get(0));
              }
          }else{
              if (mongoOptions != null) {
-                 mongo = new Mongo(serverList, mongoOptions);
+                 mongo = new MongoClient(serverList, mongoOptions);
              }else{
-                 mongo = new Mongo(serverList);
+                 mongo = new MongoClient(serverList);
              }
          }
          return mongo;
@@ -113,11 +115,11 @@ public class MongoFactoryBean extends AbstractFactoryBean<Mongo> {
 		this.serverStrings = serverStrings;
 	}
 
-	public MongoOptions getMongoOptions() {
+	public MongoClientOptions getMongoOptions() {
 		return mongoOptions;
 	}
 
-	public void setMongoOptions(MongoOptions mongoOptions) {
+	public void setMongoOptions(MongoClientOptions mongoOptions) {
 		this.mongoOptions = mongoOptions;
 	}
 

@@ -30,7 +30,7 @@
 	</bean>
 
 	<!-- mongoDB的配置对象 -->
-	<bean id="mongoOptions" class="com.mongodb.MongoOptions">
+	<bean id="mongoOptions" class="com.mongodb.MongoClientOptions">
 		<!-- 服务器是否自动重连，默认为false -->
 		<property name="autoConnectRetry" value="false" />
 		<!-- 对同一个服务器尝试重连的时间(毫秒)，设为0时默认使用15秒 -->
